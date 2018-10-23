@@ -17,10 +17,10 @@ public class DeleteReparsePoint {
 
         DeleteReparsePoint delRepPoint = new DeleteReparsePoint("/mnt/2BFF77C153FC98B1/OneDrive");
 
-        delRepPoint.getListOfFiles();
+      delRepPoint.getListOfFiles();
+      String output = delRepPoint.executeCommand();
+//      System.out.println(output);
 
-//        String output = delRepPoint.executeCommand();
-//        System.out.println(output);
     }
 
     private String executeCommand() {
@@ -51,14 +51,21 @@ public class DeleteReparsePoint {
         File folder = new File(folderPath);
         listOfFiles = folder.listFiles();
 
-        for (int i = 0; i < listOfFiles.length; i++) {
-            if (listOfFiles[i].isFile()) {
-                System.out.println("File " + listOfFiles[i].getName());
-            }
-            else if (listOfFiles[i].isDirectory()) {
-                System.out.println("Directory " + listOfFiles[i].getName());
-            }
-        }
+//        for (int i = 0; i < listOfFiles.length; i++) {
+//            if (listOfFiles[i].isFile()) {
+//                System.out.println("File " + listOfFiles[i].getName());
+//            }
+//            else if (listOfFiles[i].isDirectory()) {
+//                System.out.println("Directory " + listOfFiles[i].getName());
+//            }
+//        }
     }
 
+    //@return true if current path has folder
+    private boolean isFolder() {
+        return false;
+    }
+
+    //go to next folder in the list
+    private void goToFolder(int folderIndex) {}
 }
