@@ -21,6 +21,13 @@ public class DeleteReparsePoint {
       String output = delRepPoint.executeCommand();
 //      System.out.println(output);
 
+        //заходим в папку
+        //получаем список файлов в этой папке
+        //выполняем консольную команду
+        //если в списке есть еще папки
+        //то сохраняем список папок
+        //переходим в следующую папку
+
     }
 
     private String executeCommand() {
