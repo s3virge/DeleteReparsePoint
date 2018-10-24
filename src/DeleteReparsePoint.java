@@ -4,39 +4,33 @@ import java.io.InputStreamReader;
 
 public class DeleteReparsePoint {
 
-    public DeleteReparsePoint() {
-    }
-
     public static void main(String[] args) {
 
         String folderPath = "/home/s3virge/www";
 //        folderPath = "/mnt/2BFF77C153FC98B1/OneDrive";
 
-        DeleteReparsePoint delRepPoint = new DeleteReparsePoint();
-
-        File[] listOfFiles = delRepPoint.getListOfFiles(folderPath);
-
-        delRepPoint.executeCommandForEach(listOfFiles, "fsutil reparsepoint delete ");
-
-//        String output = delRepPoint.executeCommand("fsutil reparsepoint delete \"" + listOfFiles[1] + "\"");
-//      System.out.println(output);
-
-        //заходим в папку
-        //получаем список файлов в этой папке
-        //выполняем консольную команду
-        //если в списке есть еще папки
-        //то сохраняем список папок
-        //переходим в следующую папку
-
+        execute(new File(folderPath));
     }
 
-    private final void executeCommandForEach(File[] files, String command) {
-        for (File currentFile : files) {
-            executeCommand(command + "\"" + currentFile.getAbsolutePath() + "\"");
+
+
+    public static void execute(File node){
+
+        System.out.println(node.getAbsoluteFile());
+        executeCommand("fsutil reparsepoint delete \"" + node.getAbsoluteFile() + "\"");
+
+        if(node.isDirectory()) {
+
+            String[] subNote = node.list();
+
+            for(String filename : subNote){
+                execute(new File(node, filename));
+            }
         }
+
     }
 
-    private String executeCommand(String command) {
+    public static String executeCommand(String command) {
 
         StringBuffer output = new StringBuffer();
 
@@ -58,27 +52,4 @@ public class DeleteReparsePoint {
         return output.toString();
     }
 
-    private File[] getListOfFiles(String folderPath) {
-        File folder = new File(folderPath);
-        File[] files = folder.listFiles();
-
-        for (int i = 0; i < files.length; i++) {
-            if (files[i].isFile()) {
-                System.out.println("File " + files[i].getName());
-            }
-            else if (files[i].isDirectory()) {
-                System.out.println("Directory " + files[i].getName());
-            }
-        }
-
-        return files;
-    }
-
-    //@return true if current path has folder
-    private boolean isFolder() {
-        return false;
-    }
-
-    //go to next folder in the list
-    private void goToFolder(int folderIndex) {}
 }
