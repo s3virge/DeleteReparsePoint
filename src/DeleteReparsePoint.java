@@ -7,12 +7,11 @@ public class DeleteReparsePoint {
     public static void main(String[] args) {
 
         String folderPath = "/home/s3virge/www";
-//        folderPath = "/mnt/2BFF77C153FC98B1/OneDrive";
+        folderPath = "/mnt/2BFF77C153FC98B1/OneDrive";
+        folderPath = "D:\\OneDrive";
 
         execute(new File(folderPath));
     }
-
-
 
     public static void execute(File node){
 
