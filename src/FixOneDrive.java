@@ -1,54 +1,76 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 
-public class FixOneDrive {
+import java.io.File;
+
+
+public class FixOneDrive  extends Application {
 
     public static void main(String[] args) {
+
+        Application.launch(args);
 
         String folderPath = "/home/s3virge/www";
         folderPath = "/mnt/2BFF77C153FC98B1/OneDrive";
         folderPath = "D:\\OneDrive";
 
-        execute(new File(folderPath));
+//        DeleteReparsePoint deleteReparsePoint = new DeleteReparsePoint();
+//        deleteReparsePoint.execute(new File(folderPath));
     }
 
-    public static void execute(File node){
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-        System.out.println(node.getAbsoluteFile());
-        executeCommand("fsutil reparsepoint delete \"" + node.getAbsoluteFile() + "\"");
+        final DirectoryChooser directoryChooser = new DirectoryChooser();
+        configuringDirectoryChooser(directoryChooser);
 
-        if(node.isDirectory()) {
+        TextArea textArea = new TextArea();
+        textArea.setMinHeight(70);
 
-            String[] subNote = node.list();
+        Button button = new Button("Open DirectoryChooser and select a directory");
 
-            for(String filename : subNote){
-                execute(new File(node, filename));
+        button.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                File dir = directoryChooser.showDialog(primaryStage);
+                if (dir != null) {
+                    textArea.setText(dir.getAbsolutePath());
+                } else {
+                    textArea.setText(null);
+                }
             }
-        }
+        });
 
+        VBox root = new VBox();
+        root.setPadding(new Insets(10));
+        root.setSpacing(5);
+
+        root.getChildren().addAll(textArea, button);
+
+        Scene scene = new Scene(root, 400, 200);
+
+        primaryStage.setTitle("JavaFX DirectoryChooser (o7planning.org)");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 
-    public static String executeCommand(String command) {
+    private void configuringDirectoryChooser(DirectoryChooser directoryChooser) {
+        // Set title for DirectoryChooser
+        directoryChooser.setTitle("Select Some Directories");
 
-        StringBuffer output = new StringBuffer();
-
-        Process p;
-        try {
-            p = Runtime.getRuntime().exec(command);
-            p.waitFor();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-
-            String line = "";
-            while ((line = reader.readLine())!= null) {
-                output.append(line + "\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return output.toString();
+        // Set Initial Directory
+        directoryChooser.setInitialDirectory(new File(System.getProperty("user.home")));
     }
 
 }
