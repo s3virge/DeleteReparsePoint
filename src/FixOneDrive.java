@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -39,6 +40,7 @@ public class FixOneDrive  extends Application {
         TextArea textArea = new TextArea();
         textArea.setMinHeight(70);
 
+        Label label = new Label("delete reparse point from OneDrive folder using fsutil");
         Button btnBrows = new Button("Open DirectoryChooser and select a directory");
         Button btnExecute = new Button("Execute");
 
@@ -66,11 +68,11 @@ public class FixOneDrive  extends Application {
         root.setPadding(new Insets(10));
         root.setSpacing(5);
 
-        root.getChildren().addAll(textArea, btnBrows, btnExecute);
+        root.getChildren().addAll(label, textArea, btnBrows, btnExecute);
 
         Scene scene = new Scene(root, 400, 200);
 
-        primaryStage.setTitle("JavaFX DirectoryChooser (o7planning.org)");
+        primaryStage.setTitle("Fix OneDrive Folder");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
