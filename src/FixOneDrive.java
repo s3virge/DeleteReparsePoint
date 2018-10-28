@@ -16,6 +16,8 @@ import java.io.File;
 
 public class FixOneDrive  extends Application {
 
+    private String path = null;
+
     public static void main(String[] args) {
 
         Application.launch(args);
@@ -37,26 +39,34 @@ public class FixOneDrive  extends Application {
         TextArea textArea = new TextArea();
         textArea.setMinHeight(70);
 
-        Button button = new Button("Open DirectoryChooser and select a directory");
+        Button btnBrows = new Button("Open DirectoryChooser and select a directory");
+        Button btnExecute = new Button("Execute");
 
-        button.setOnAction(new EventHandler<ActionEvent>() {
+        btnBrows.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
                 File dir = directoryChooser.showDialog(primaryStage);
                 if (dir != null) {
-                    textArea.setText(dir.getAbsolutePath());
-                } else {
+                    path = dir.getAbsolutePath();
+                    textArea.setText(path);
+                }
+                else {
                     textArea.setText(null);
                 }
             }
         });
 
+        btnExecute.setOnAction(event -> {
+                    DeleteReparsePoint delRepPoint = new DeleteReparsePoint();
+                    delRepPoint.execute(new File(path), textArea);
+                });
+
         VBox root = new VBox();
         root.setPadding(new Insets(10));
         root.setSpacing(5);
 
-        root.getChildren().addAll(textArea, button);
+        root.getChildren().addAll(textArea, btnBrows, btnExecute);
 
         Scene scene = new Scene(root, 400, 200);
 

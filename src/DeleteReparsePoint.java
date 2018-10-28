@@ -1,3 +1,5 @@
+import javafx.scene.control.TextArea;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
@@ -17,10 +19,24 @@ public class DeleteReparsePoint {
                 execute(new File(node, filename));
             }
         }
-
     }
 
-    public String executeCommand(String command) {
+    public void execute(File node, TextArea textArea){
+
+        textArea.appendText(node.getAbsoluteFile().toString() + "\n");
+        executeCommand("fsutil reparsepoint delete \"" + node.getAbsoluteFile() + "\"");
+
+        if(node.isDirectory()) {
+
+            String[] subNote = node.list();
+
+            for(String filename : subNote){
+                execute(new File(node, filename), textArea);
+            }
+        }
+    }
+
+    private String executeCommand(String command) {
 
         StringBuffer output = new StringBuffer();
 
